@@ -1,0 +1,37 @@
+------------ CentOS --------------
+ARCH=arm
+CROSS_COMPILE=arm-poky-linux-gnueabi-
+PATH=$PATH:/opt/poky-lsb/1.4.2/sysroots/x86_64-pokysdk-linux/usr/bin/:/opt/poky-lsb/1.4.2/sysroots/x86_64-pokysdk-linux/usr/bin/cortexa9hf-vfp-neon-poky-linux-gnueabi/
+export PATH CROSS_COMPILE ARCH
+
+DEV_IMAGE=/opt/ubq/devkit/arm/armv7/target
+INCLUDE=-I$DEV_IMAGE/usr/include\ -I/opt/ubq/devkit/archives/Kernel/v14-kernel_r100/include
+export DEV_IMAGE INCLUDE
+
+# start default section
+Section
+ 
+    # set the installation directory as the destination for the following actions
+    SetOutPath $INSTDIR
+ 
+    # create the uninstaller
+    WriteUninstaller "$INSTDIR\uninstall.exe"
+ 
+    # create a shortcut named "new shortcut" in the start menu programs directory
+    # point the new shortcut at the program uninstaller
+    #CreateShortCut "$SMPROGRAMS\new shortcut.lnk" "$INSTDIR\uninstall.exe"
+SectionEnd
+
+# uninstaller section start
+Section "uninstall"
+ 
+    # first, delete the uninstaller
+    Delete "$INSTDIR\uninstall.exe"
+ 
+    # second, remove the link from the start menu
+    Delete "$DESKTOP\new shortcut.lnk"
+ 
+	# delete file
+    Delete "$INSTDIR\TestEXcel.xlsx"
+# uninstaller section end
+SectionEnd
